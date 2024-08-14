@@ -1,0 +1,77 @@
+﻿@model IEnumerable<AssessmentAmit.Models.Employee>
+
+@{
+    ViewBag.Title = "GetAllEmpDetails";
+}
+
+<div class="col-md-10">
+    <p>
+        <div class="col-md-3">
+            <p>@Html.ActionLink("Add New Employee", "AddEmployee", "", new { @class = "btn btn-primary btn-lg" })</p>
+        </div>
+        <div class="col-md-3">
+            <p>@Html.ActionLink("Calculate salary", "Index", "Salary", "", new { @class = "btn btn-primary btn-lg" })</p>
+        </div>
+
+    </p>
+</div>
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                <b>First Name</b>
+            </th>
+            <th>
+                <b>First Name</b>
+            </th>
+            <th>
+                <b>Department</b>
+            </th>
+            <th>
+                <b>Basic</b>
+            </th>
+            <th>
+                <b>HRA</b>
+            </th>
+            <th>
+                <b>DA</b>
+            </th>
+            <th>
+                <b>TA</b>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Basic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HRA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TA)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditEmpDetails", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "DeleteEmp", new { id = item.Id }, new { onclick = "return confirm('Are you sure to delete this record?');" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

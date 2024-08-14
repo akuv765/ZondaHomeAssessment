@@ -1,0 +1,84 @@
+﻿@model AssessmentAmit.Models.Employee
+@{
+    ViewBag.Title = "AddEmployee";
+}
+
+<h2>Add Employee</h2>
+
+<div class="row">
+    @using (Html.BeginForm("AddEmployee","Employee",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label for="firstName" class="control-label col-md-2">First Name</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="firstName" name="firstName" value="@Model.FirstName" />
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName" class="control-label col-md-2">Last Name</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="lastName" name="lastName" value="@Model.LastName" />
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="department" class="control-label col-md-2">Department</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="department" name="department" value="@Model.Department" />
+                @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="basic" class="control-label col-md-2">Basic</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="basic" name="basic" value="" />
+                @Html.ValidationMessageFor(model => model.Basic, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="hra" class="control-label col-md-2">HRA</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="hra" name="hra" value="" readonly="readonly" disabled="disabled" />
+                @Html.ValidationMessageFor(model => model.HRA, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="da" class="control-label col-md-2">DA</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="da" name="da" value="" readonly="readonly" disabled="disabled" />
+                @Html.ValidationMessageFor(model => model.DA, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="ta" class="control-label col-md-2">TA</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="ta" name="ta" value="" readonly="readonly" disabled="disabled" />
+                @Html.ValidationMessageFor(model => model.TA, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Create" class="btn btn-primary btn-lg" />
+            </div>
+            <div class="col-md-3">
+                <div>
+                    @Html.ActionLink("Back to Details", "GetAllEmpDetails", "", new { @class = "btn btn-primary btn-lg" })
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

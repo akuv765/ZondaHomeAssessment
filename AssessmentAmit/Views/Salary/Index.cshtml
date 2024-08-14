@@ -1,0 +1,131 @@
+﻿@model AssessmentAmit.Models.Salary
+@{
+    ViewBag.Title = "Index";
+    bool isCalculated = false;
+    if(ViewBag.IsCalculated != null) {
+        isCalculated = (bool)ViewBag.IsCalculated;
+    }
+
+    bool viewMode = false;
+    if (ViewBag.Mode != null)
+    {
+        viewMode = (string)ViewBag.Mode == "View"?true:false;
+    }
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    @using (Html.BeginForm("CalculateSalary", "Salary", FormMethod.Post))
+    {
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="year" class="control-label col-md-2">Year</label>
+                @Html.DropDownList("Year", (IEnumerable<SelectListItem>)ViewBag.Years, "Select", new { @id = "year", @class = "form-control", @onchange = "GetMonthDays()" })
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="month" class="control-label col-md-2">Month</label>
+                @Html.DropDownList("Month", (IEnumerable<SelectListItem>)ViewBag.Months, "Select", new { @id = "month", @class = "form-control", @onchange = "GetMonthDays()" })
+                @Html.ValidationMessageFor(model => model.Month, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="totalDays" class="control-label col-md-2">Days</label>
+                <input name="totalDays" id="totalDays" class="form-control" readonly="readonly" value="@Model.TotalDays" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="Month" class="control-label col-md-2">Employee</label>
+                <input name="EmployeeId" id="employeeId" class="form-control hidden" value="@Model.EmployeeId" />
+                @Html.DropDownList("employees", (IEnumerable<SelectListItem>)ViewBag.Employees, "Select", new { @id = "employees", @class = "form-control", @onchange = "onEmpChange()" })
+                @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="" class="control-label col-md-2">Present Days</label>
+                <input name="presentDays" id="presentDays" class="form-control" value="@Model.PresentDays" />
+                @Html.ValidationMessageFor(model => model.PresentDays, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="basic" class="control-label col-md-2">Basic</label>
+                <input name="basic" id="basic" class="form-control" readonly="readonly" value="@Model.Basic" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="hra" class="control-label col-md-2">HRA</label>
+                <input name="hra" id="hra" class="form-control" readonly="readonly" value="@Model.HRA" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="da" class="control-label col-md-2">DA</label>
+                <input name="da" id="da" class="form-control" readonly="readonly" value="@Model.DA" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="ta" class="control-label col-md-2">TA</label>
+                <input name="ta" id="ta" class="form-control" readonly="readonly" value="@Model.TA" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="gross" class="control-label col-md-2">Gross Salary</label>
+                <input name="gross" id="gross" class="form-control" readonly="readonly" value="@Model.GrossSalary" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-2">
+                <input type="submit" value="Calculate" class="btn btn-primary btn-lg" />
+            </div>
+            <div class="col-md-3">
+                <div>
+                    @Html.ActionLink("Back to Details", "GetAllEmpDetails", "Employee",null, new { @class = "btn btn-primary btn-lg" })
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<script>
+    function onEmpChange(e) {
+        var selectedEmp = $("#employees").val();
+        $("#employeeId").val(selectedEmp);
+    }
+
+    function GetMonthDays() {
+        $("#totalDays").val("");
+        var month = $("#month").val();
+        var year = $("#year").val();
+        if (month != '' && year != '') {
+            $.ajax(
+                {
+                    type: 'GET',
+                    dataType: 'JSON',
+                    url: '/Salary/GetDays',
+                    data: { month: month, year: year },
+                    success:
+                        function (response) {
+                            $("#totalDays").val(response);
+                            console.log(response);
+                        },
+                    error:
+                        function (response) {
+                            alert("Error: " + response);
+                        }
+                });
+            }
+        }
+</script>
